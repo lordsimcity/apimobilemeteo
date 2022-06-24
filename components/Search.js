@@ -1,46 +1,52 @@
-import React from 'react'
-import { View, TextInput, Button } from 'react-native'
-
+import axios from "axios";
+import API_TOKEN from "../env";
+import React from "react";
+import { Button, FlatList, TextInput, View } from "react-native";
+ 
 class Search extends React.Component {
-  constructor(props) {
+  constructor(props){
     super(props)
-    this.searchedText = '' // Initialisation de notre donnée searchedText en dehors du state
+
     this.state = {
-      films: [],
+      getPostal: '',
     }
   }
 
-  _loadFilms() {
-    if (this.searchedText.length > 0) {
-      // Seulement si le texte recherché n'est pas vide
-      getFilmsFromApiWithSearchedText(this.searchedText).then((data) => {
-        this.setState({ films: data.results })
+  postPostalCodeSearch() {
+       axios
+      .get(
+        'https://api.meteo-concept.com/api/location/city?token=' +
+        API_TOKEN +
+        '&insee=' +
+          this.state.getPostal
+      )
+      .then(function (response) {
+        if (response) {
+          alert(
+            'Voici les infos pour le numéro INSEE '+
+              JSON.stringify(response.data)
+          )
+        } else {
+          alert(
+            'Le numéro INSEE n\'existe pas'
+          )
+        }
       })
-    }
   }
+ 
+  render(){
+    return(
+    <View>
+      <TextInput
+        placeholder="Code postal"
+        value={this.state.getPostal}
+        onChange={e => this.setState({getPostal: e.target.value})}
+      />
 
-  _searchTextInputChanged(text) {
-    this.searchedText = text // Modification du texte recherché à chaque saisie de texte, sans passer par setState
-  }
-
-  render() {
-    //console.log('RENDER')
-    return (
-      <View style={styles.main_container}>
-        <TextInput
-          style={styles.textinput}
-          placeholder="Titre du film"
-          onChangeText={(text) => this._searchTextInputChanged(text)}
-        />
-        <Button title="Rechercher" onPress={() => this._loadFilms()} />
-        <FlatList
-          data={this.state.films}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <FilmItem film={item} />}
-        />
-      </View>
-    )
-  }
+      <Button title="Rechercher" onPress={()=>this.postPostalCodeSearch()}/>
+      <FlatList  />
+    </View>
+  )}
 }
 
 export default Search

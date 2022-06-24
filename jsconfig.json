@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+      "target": "esnext",
+      "module": "commonjs",
+      "baseUrl": "apimobilemeteo"
+  },
+  "include": ["apimobilemeteo/**/*"],
+  "exclude": ["node_modules"]
+}

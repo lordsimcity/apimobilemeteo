@@ -1,11 +1,9 @@
 import React from 'react'
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, Text, FlatList, Button, TextInput } from 'react-native'
 import axios from 'axios'
-import React from 'react'
-import Search from './Components/Search'
+import Search from './components/Search'
+import  API_TOKEN from './env'
 
-const API_TOKEN =
-  'beff0b2665689f298e408220eda60e6d3febb2a72b1e16cca5d1e2ec39df9f14'
 
 const App = () => {
   const getCall = () => {
@@ -99,11 +97,31 @@ const App = () => {
       })
   }
 
-
+  // var getPostal = "";
+  // // Navbar
+  // const postPostalCodeSearch = () => {
+  //   axios
+  //     .get(
+  //       '  http://api.meteo-concept.com/api/location/city?token=' +
+  //         API_TOKEN +
+  //         '&insee=' +
+  //         getPostal
+  //     )
+  //     .then(function (response) {
+  //       alert(
+  //         'Weather codes Temps sensible cette nuit à Strasbourg : ' +
+  //           JSON.stringify(response.data.forecast.weather)
+  //       )
+  //     })
+  // }
 
   return (
     
     <View style={styles.container}>
+        <Search/>
+
+
+
       <Text style={{ fontSize: 30, textAlign: 'center' }}>
         Application météo
       </Text>
@@ -157,5 +175,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
 })
+
+
 
 export default App
